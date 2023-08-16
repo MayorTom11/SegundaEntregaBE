@@ -57,7 +57,7 @@ export class CartsMongo {
 
     async deleteProductInCart(cartId, productId){
         try {
-            const deleteProductInCart = await this.model.findByIdAndDelete(cartId.products[productId])
+            const deleteProductInCart = await this.model.findByIdAndUpdate(cartId, {$pull:{products:{_id:productId}}})
             return deleteProductInCart
         } catch (error) {
             console.log(error.message)

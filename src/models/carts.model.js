@@ -5,15 +5,19 @@ import { productsCollection, cartsCollection } from "../constants/index.js";
 const cartSchema = new mongoose.Schema({
 	products:[
         {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:productsCollection,
-            required:true,
+            productId:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:productsCollection,
+                required:true,
+            },
+            quantity:{
+                type:Number,
+                required:true,
+                min:1,
+                default:1
+            }
         }
-    ],
-    quantity:{
-        type:Number,
-        required:true
-    }
+    ]
 })
 
 cartSchema.plugin(mongoosePaginate)
