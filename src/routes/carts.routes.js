@@ -24,13 +24,24 @@ router.get("/api/carts/:cartId",async(req,res)=>{
     }
 })
 
-router.post("/api/carts/:cartId/products/:productId",async(req,res)=>{
+router.put("/api/carts/:cartId",async(req,res)=>{
+    try {
+        const cartId = req.params.cartId
+        const newCart = req.body
+        await cartService.updateCart(cartId, newCart)
+        res.json({status:"success", message:"Carrito actualizado"})
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
+router.put("/api/carts/:cartId/products/:productId",async(req,res)=>{
     try {
         const cartId = req.params.cartId
         const productId = req.params.productId
         const quantity = req.body
-        const addProductsInCart = await cartService.addProductsInCart(cartId, productId, quantity)
-        addProductsInCart ? res.json(addProductsInCart) : res.json("El carrito buscado no fue encontrado")
+        await cartService.updateProductsInCart(cartId, productId, quantity)
+        res.json({status:"success", message:"Cantidad actualizada"})
     } catch (error) {
         res.status(500).json(error.message)
     }
@@ -52,17 +63,6 @@ router.delete("/api/carts/:cartId",async(req,res)=>{
         const cartId = req.params.cartId
         await cartService.deleteCart(cartId)
         res.json({status:"success", message:"Carrito eliminado"})
-    } catch (error) {
-        res.status(500).json(error.message)
-    }
-})
-
-router.put("/api/carts/:cartId",async(req,res)=>{
-    try {
-        const cartId = req.params.cartId
-        const newCart = req.body
-        await cartService.updateCart(cartId, newCart)
-        res.json({status:"success", message:"Carrito actualizado"})
     } catch (error) {
         res.status(500).json(error.message)
     }

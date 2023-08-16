@@ -15,6 +15,16 @@ export class CartsMongo {
         }
     }
 
+    async getProductsInCart(CartId){
+        try {
+            const getProductsInCart = await this.model.findById(CartId)
+            return getProductsInCart
+        } catch (error) {
+            console.log(error.message)
+            throw new Error("Hubo un error al obtener los productos del carrito")
+        }
+    }
+
     async addCart(cartInfo){
         try {
             const addCart = await this.model.create(cartInfo)
@@ -27,7 +37,7 @@ export class CartsMongo {
 
     async updateCart(cartId, newCart){
         try {
-            const updateCart = await this.model.findByIdAndUpdate(cartId, newCart)
+            const updateCart = await this.model.findByIdAndUpdate(cartId,{$push:{products:{productId:newCart.productId,quantity:newCart.quantity}}})
             return updateCart
         } catch (error) {
             console.log(error.message)
@@ -35,20 +45,10 @@ export class CartsMongo {
         }
     }
 
-    async getProductsInCart(CartId){
+    async updateProductsInCart(cartId, productId, quantity){
         try {
-            const getProductsInCart = await this.model.findById(CartId)
-            return getProductsInCart
-        } catch (error) {
-            console.log(error.message)
-            throw new Error("Hubo un error al obtener los productos del carrito")
-        }
-    }
-
-    async addProductsInCart(cartId, productId, quantity){
-        try {
-            const addProductsInCart = await this.model.findByIdAndUpdate(cartId,productId,quantity)
-            return addProductsInCart
+            const updateProductsInCart = await this.model.findByIdAndUpdate(cartId,{$push:{products:{productId:productId,quantity:quantity}}})
+            return updateProductsInCart
         } catch (error) {
             console.log(error.message)
             throw new Error("Hubo un error al obtener los productos del carrito")
@@ -57,7 +57,7 @@ export class CartsMongo {
 
     async deleteProductInCart(cartId, productId){
         try {
-            const deleteProductInCart = await this.model.findByIdAndUpdate(cartId, {$pull:{products:{_id:productId}}})
+            const deleteProductInCart = await this.model.findByIdAndUpdate(cartId, {$pull:{products:{productId:productId}}})
             return deleteProductInCart
         } catch (error) {
             console.log(error.message)
