@@ -6,9 +6,14 @@ const cartSchema = new mongoose.Schema({
 	products:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:productsCollection
+            ref:productsCollection,
+            required:true,
         }
-    ]
+    ],
+    quantity:{
+        type:Number,
+        required:true
+    }
 })
 
 cartSchema.plugin(mongoosePaginate)

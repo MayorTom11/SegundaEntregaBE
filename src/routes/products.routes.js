@@ -16,8 +16,7 @@ router.get("/api/products/",async(req,res)=>{
         if(!page){
             page = 1
         }
-        const getProducts = await productsModel.paginate({},{limit:limit},{page:page},{sort:sort})
-        // const getProducts = await productService.getProducts()
+        const getProducts = await productsModel.paginate({},{page:page,limit:limit,sort:sort})
         res.json({status:"success",data:getProducts})
     } catch (error) {
         res.status(500).json(error.message)

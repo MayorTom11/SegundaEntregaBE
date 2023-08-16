@@ -25,6 +25,16 @@ export class CartsMongo {
         }
     }
 
+    async updateCart(cartId, newCart){
+        try {
+            const updateCart = await this.model.findByIdAndUpdate(cartId, newCart)
+            return updateCart
+        } catch (error) {
+            console.log(error.message)
+            throw new Error("Hubo un error al crear el carrito")
+        }
+    }
+
     async getProductsInCart(CartId){
         try {
             const getProductsInCart = await this.model.findById(CartId)
@@ -47,11 +57,21 @@ export class CartsMongo {
 
     async deleteProductInCart(cartId, productId){
         try {
-            const deleteProductInCart = await this.model.findByIdAndDelete(cartId, productId)
+            const deleteProductInCart = await this.model.findByIdAndDelete(cartId.products[productId])
             return deleteProductInCart
         } catch (error) {
             console.log(error.message)
             throw new Error("Hubo un error al eliminar el producto del carrito")
+        }
+    }
+
+    async deleteCart(cartId){
+        try {
+            const deleteCart = await this.model.findByIdAndDelete(cartId)
+            return deleteCart
+        } catch (error) {
+            console.log(error.message)
+            throw new Error("Hubo un error al eliminar el carrito")
         }
     }
 }

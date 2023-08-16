@@ -47,4 +47,25 @@ router.delete("/api/carts/:cartId/products/:productId",async(req,res)=>{
     }
 })
 
+router.delete("/api/carts/:cartId",async(req,res)=>{
+    try {
+        const cartId = req.params.cartId
+        await cartService.deleteCart(cartId)
+        res.json({status:"success", message:"Carrito eliminado"})
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
+router.put("/api/carts/:cartId",async(req,res)=>{
+    try {
+        const cartId = req.params.cartId
+        const newCart = req.body
+        await cartService.updateCart(cartId, newCart)
+        res.json({status:"success", message:"Carrito actualizado"})
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
 export {router as cartsRouter}

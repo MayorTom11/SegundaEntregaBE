@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
     category:{
         type:String,
         required:true,
-        enum:["Apetizers","Wines"]
+        enum:["Aperitifs","Wines"]
     }
 })
 
