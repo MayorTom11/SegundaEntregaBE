@@ -39,7 +39,7 @@ router.put("/api/carts/:cartId/products/:productId",async(req,res)=>{
     try {
         const cartId = req.params.cartId
         const productId = req.params.productId
-        const quantity = req.body
+        const {quantity} = req.body
         await cartService.updateProductsInCart(cartId, productId, quantity)
         res.json({status:"success", message:"Cantidad actualizada"})
     } catch (error) {

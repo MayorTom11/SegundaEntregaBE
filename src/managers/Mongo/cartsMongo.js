@@ -17,7 +17,7 @@ export class CartsMongo {
 
     async getProductsInCart(CartId){
         try {
-            const getProductsInCart = await this.model.findById(CartId)
+            const getProductsInCart = await this.model.findById(CartId).populate("products")
             return getProductsInCart
         } catch (error) {
             console.log(error.message)
@@ -47,7 +47,7 @@ export class CartsMongo {
 
     async updateProductsInCart(cartId, productId, quantity){
         try {
-            const updateProductsInCart = await this.model.findByIdAndUpdate(cartId,{$push:{products:{productId:productId,quantity:quantity}}})
+            const updateProductsInCart = await this.model.findByIdAndUpdate(cartId,{$push:{products:{quantity:quantity}}})
             return updateProductsInCart
         } catch (error) {
             console.log(error.message)

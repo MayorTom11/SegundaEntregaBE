@@ -7,8 +7,18 @@ export class ProductsMongo{
 
     async getProducts(){
         try {
-            const getProducts = await this.model.find()
+            const getProducts = await this.model.find().lean()
             return getProducts
+        } catch (error) {
+            console.log(error.message)
+            throw new Error("Hubo un error al obtener los productos")
+        }
+    }
+
+    async getProductsWithPaginate(query, options){
+        try {
+            const result = await this.model.paginate(query, options)
+            return result
         } catch (error) {
             console.log(error.message)
             throw new Error("Hubo un error al obtener los productos")
